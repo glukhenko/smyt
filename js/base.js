@@ -70,16 +70,12 @@ function setDataTable(data){
         table.appendChild(tr);
     }
     
-    
-    
 }
 
 function createFormNewRecord(data){
     //Создание формы для ввода новой записи
     newRecord = document.getElementById('newRecord');
     newRecord.innerHTML = '';
-    
-    //initDatepicker();
     
     for(var i=0; i<data.fields.length; i++){
         b = document.createElement('b');

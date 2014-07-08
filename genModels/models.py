@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from django.db import models
 import os
 import yaml
@@ -22,8 +24,7 @@ class modelGenerate(object):
         if fields:
             attrs.update(fields)
         
-        model = type(modelName, (models.Model,), attrs)
-        return model
+        return type(modelName, (models.Model,), attrs)
     
 def main():
     
@@ -51,5 +52,5 @@ def main():
             
         generateModels = content
             
-generateModels = {}
+generateModels = None
 main()

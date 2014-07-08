@@ -1,17 +1,9 @@
+# -*- encoding: utf-8 -*-
 from django.contrib import admin
-from django.db import models
 from genModels import models as m
-import os
-import yaml
 
-
-prefixIn = '.\\input\\' 
-    
 class modelGenerateAdmin(object):
     
-    def __init__(self):
-        pass
-        
     def createModelAdmin(self, modelNameAdmin = None, listFieldsAdmin = None):
         
         class Meta:
@@ -30,27 +22,19 @@ class modelGenerateAdmin(object):
         if fields:
             attrs.update(fields)
         
-        modelAdmin = type(modelNameAdmin, (admin.ModelAdmin,), attrs)
-        return modelAdmin
+        return type(modelNameAdmin, (admin.ModelAdmin,), attrs)
+    
+# Создание классов Admin для существующих моделей
+for name in m.generateModels:
+    
+    model = m.generateModels[name]['model']
+    
+    fieldsAdmin = [ field['id'] for field in m.generateModels[name]['fields'] ]
+    
+    modelAdmin = modelGenerateAdmin()
+    modelAdmin = modelAdmin.createModelAdmin(name + 'Admin', fieldsAdmin)
+    
+    admin.site.register(model, modelAdmin)
     
     
-def main():
-    
-    for file in os.listdir(prefixIn):
-        
-        with open(prefixIn + file, 'r') as hf:
-            content = yaml.load(hf)
-            
-            for key, value in content.items():
-                
-                model = m.generateModels[key]['model']
-                
-                fieldsAdmin = [ field['id'] for field in value['fields'] ]
-                    
-                modelAdm = modelGenerateAdmin()
-                modelAdm = modelAdm.createModelAdmin(key + 'Admin', fieldsAdmin)
-                
-                admin.site.register(model, modelAdm)
-    
-main()
     
