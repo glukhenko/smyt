@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load mytag %}
+{% load dajaxice_templatetags %}
+{% dajaxice_js_import %}
+{% csrf_token %}
+<html>
+    <head>
+        <title>Генерация моделей</title>
+        
+        <link rel="stylesheet" type="text/css" href="/static/base.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/ui-lightness/jquery-ui-1.10.4.custom.css" >
+        <script type="text/javascript" src="/static/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="/static/base.js"> </script>
+        <script type="text/javascript" src="/static/jquery.dajax.core.js"> </script>
+        <script type="text/javascript" src="/static/jquery-ui-1.10.4.custom-date.js"> </script>
+        
+        
+        
+    </head>
+
+    <body>
+        
+        
+        
+        <div id="mylist">
+            <ul>
+            {% for tableName in tables %}
+                <li> <a id="{{tableName}}" onclick="Dajaxice.genModels.getData(dataReceived, {'nameDB': '{{tableName}}' });"> {{tables|getTitle:tableName}} </a> </li>
+                {% if forloop.first %}
+                    <script> document.getElementById("{{tableName}}").onclick(); </script>
+                {% endif %}
+            {% endfor %}
+            </ul>
+            
+        </div>
+        
+        <div id="mycontent">
+            
+            
+            <table id="table" border="1">
+            </table><br/>
+            
+            <form id="form" action="" method="post" >{% csrf_token %}
+                <fieldset>
+                    <legend>Добавление новой записи</legend>
+                    <div id="newRecord">
+
+                    </div>
+                </fieldset>
+            </form>
+            <button onclick="checkData()">Добавить</button>
+            
+        
+            
+        </div>
+        
+
+        
+        
+        <script type="text/javascript" src="/static/widjets.js"></script>
+        
+    </body>
+    
+</html>
+
+
